@@ -5,44 +5,49 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 public class GameLogic {
-    static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Character> playerTeam = new ArrayList<>();
-    static ArrayList<Character> enemyTeam = new ArrayList<>();
+    static Scanner scanner = new Scanner(System.in);//checks for user input
+    static ArrayList<Character> playerTeam = new ArrayList<>();// list of player controlled characters
+    static ArrayList<Character> enemyTeam = new ArrayList<>();// list of enemy-controlled characters 
     
     public static int readInputInt(String prompt, int numOptions) {
         int input;
         do {
             System.out.println(prompt);
             try {
-                input = Integer.parseInt(scanner.nextLine());
+                input = Integer.parseInt(scanner.nextLine());//parsing
             } catch (Exception e) {
                 input = -1;
-                System.out.println("Invalid input! Please try again.");
+                System.out.println("Invalid input! Please try again.");//alternative for anything other then integer
             }
-        } while (input < 1 || input > numOptions);
+        } while (input < 1 || input > numOptions);//validate range 
         return input;
     }
+    //reads a string input 
     public static String readInputString(String prompt) {
         System.out.println(prompt);
         String input = scanner.nextLine();
         return input;
         
     }
+    //clear console 
     public static void clearConsole() {
         for (int i = 0; i < 100; i++) {
             System.out.println();
         }
     }
+    //pauses game and waits for user to press ENTER to proceed 
     public static void pauseGame(String message) {
         System.out.println(message);
         scanner.nextLine();
     }
+    //Formatting 
     public static void textSeperator(int n) {
         for (int i = 0; i < n; i++) {
             System.out.print("-");
         }
         System.out.println();
     }
+    //formatting 
     public static void headingCreator(String heading) {
         textSeperator(30);
         System.out.println(heading);
@@ -73,32 +78,34 @@ public class GameLogic {
                 }
             }
         }    
+        //Enemy Creation 
         // need to randomise to some degree
+        //Enemy 1
         Character enemy1 = new Character("Goblin", 10, 10, 5, 6, 4);
         enemy1.Race = new Race("race1", new StatMod(2, 2), new StatMod(4, 1));
         enemy1.Class = new Class("class1");
         enemy1.Equipment = new Equipment("weapon1", new StatMod(2, 2));
         enemy1.identifier = 1;
         enemyTeam.add(enemy1);
-
+        //Enemy 2
         Character enemy2 = new Character("Kobold", 10, 12, 3, 7, 6);
         enemy2.Race = new Race("race2", new StatMod(1, 5), new StatMod(2, 2));
         enemy2.Class = new Class("class2");
         enemy2.Equipment = new Equipment("weapon2", new StatMod(2, 3));
         enemy2.identifier = 1;
         enemyTeam.add(enemy2);
-
+        //Enemy
         Character enemy3 = new Character("Witch", 10, 12, 3, 5, 6);
         enemy3.Race = new Race("race3", new StatMod(1, 5), new StatMod(2, 2));
         enemy3.Class = new Class("class3");
         enemy3.Equipment = new Equipment("weapon3", new StatMod(2, 3));
         enemy3.identifier = 1;
         enemyTeam.add(enemy3);
-
+        //Turn order st up based on Speed(Dex)
         ArrayList<Character> turnOrder = new ArrayList<>();
         turnOrder.addAll(playerTeam);
         turnOrder.addAll(enemyTeam);
-        Collections.sort(turnOrder, (a, b) -> Integer.compare(a.dexterity, b.dexterity));
+        Collections.sort(turnOrder, (a, b) -> Integer.compare(a.dexterity, b.dexterity));//Comaprison 
 
         System.out.println(turnOrder); //need to removed at somepoint
         
@@ -111,12 +118,13 @@ public class GameLogic {
             }
         pauseGame("Press ENTER to begin the fight: ");
         
-        Node n1 = battleOrderCreator(turnOrder);
-        
+        Node n1 = battleOrderCreator(turnOrder);//Managing the turn based order
+       //rounds 
         int roundCount = 1;
         int roundResult;
         System.out.println("Round 1!");
         while (true) {
+            //Removal of defence buffs each round
             for (Character obj : turnOrder) {
                 if (obj.defenceBuff > 0) {
                     obj.defence -= obj.defenceBuff;
@@ -125,17 +133,17 @@ public class GameLogic {
             }
             roundResult = battleLoop(n1, playerTeam, enemyTeam);
             if (roundResult < 0) {
-                break;
+                break;//End game if less then 0 so -negatives
             }
             else if (roundResult == 0) {
-                continue;
+                continue;//Continue to next round 
             }
             else {
                 roundCount += roundResult;
-                pauseGame("Round " + roundCount + "!\nPress ENTER to continue: ");
+                pauseGame("Round " + roundCount + "!\nPress ENTER to continue: ");//Next step prompt 
             }
         }
-
+        //Outcome of the battle based on win or loss
         if (roundResult == -1) {
             System.out.println("You Win!");
         }
