@@ -1,0 +1,9 @@
+name=char 1
+health=7
+strength=5
+intelligence=9
+dexterity=8
+defence=2
+class=Paladin
+race=Human
+equipment=Divine Doublet (+3 Strength)

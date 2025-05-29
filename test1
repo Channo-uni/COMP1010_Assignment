@@ -1,0 +1,9 @@
+name=char2
+health=14
+strength=0
+intelligence=9
+dexterity=11
+defence=1
+class=Wizard
+race=Elf
+equipment=Arcane Amulet (+5 Health)

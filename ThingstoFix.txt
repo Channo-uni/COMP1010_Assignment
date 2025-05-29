@@ -1,2 +1,3 @@
 fix being able to attack a dead target
 tune stats
+finish file io

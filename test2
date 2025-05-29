@@ -1,0 +1,9 @@
+name=char 3
+health=43
+strength=4
+intelligence=9
+dexterity=3
+defence=8
+class=Druid
+race=Undead
+equipment=Willow Whistle (+2 Dexterity)
